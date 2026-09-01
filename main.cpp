@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -13,6 +14,44 @@ public:
     float marks;
 };
 
+// Save students to file
+void saveStudents(vector<Student>& students)
+{
+    ofstream file("students.txt");
+
+    for (int i = 0; i < students.size(); i++)
+    {
+        file << students[i].id << endl;
+        file << students[i].name << endl;
+        file << students[i].course << endl;
+        file << students[i].marks << endl;
+    }
+
+    file.close();
+}
+
+// Load students from file
+void loadStudents(vector<Student>& students)
+{
+    ifstream file("students.txt");
+
+    Student s;
+
+    while (file >> s.id)
+    {
+        file.ignore();
+
+        getline(file, s.name);
+        getline(file, s.course);
+        file >> s.marks;
+
+        students.push_back(s);
+    }
+
+    file.close();
+}
+
+// Add student
 void addStudent(vector<Student>& students)
 {
     Student s;
@@ -31,9 +70,12 @@ void addStudent(vector<Student>& students)
 
     students.push_back(s);
 
+    saveStudents(students);
+
     cout << "\nStudent added successfully!\n";
 }
 
+// Display students
 void displayStudents(vector<Student>& students)
 {
     if (students.empty())
@@ -54,6 +96,7 @@ void displayStudents(vector<Student>& students)
     }
 }
 
+// Search student
 void searchStudent(vector<Student>& students)
 {
     int id;
@@ -77,6 +120,7 @@ void searchStudent(vector<Student>& students)
     cout << "\nStudent not found.\n";
 }
 
+// Update student
 void updateStudent(vector<Student>& students)
 {
     int id;
@@ -97,6 +141,8 @@ void updateStudent(vector<Student>& students)
             cout << "Enter New Marks: ";
             cin >> students[i].marks;
 
+            saveStudents(students);
+
             cout << "\nStudent updated successfully!\n";
 
             return;
@@ -106,6 +152,7 @@ void updateStudent(vector<Student>& students)
     cout << "\nStudent not found.\n";
 }
 
+// Delete student
 void deleteStudent(vector<Student>& students)
 {
     int id;
@@ -119,6 +166,8 @@ void deleteStudent(vector<Student>& students)
         {
             students.erase(students.begin() + i);
 
+            saveStudents(students);
+
             cout << "\nStudent deleted successfully!\n";
 
             return;
@@ -131,6 +180,9 @@ void deleteStudent(vector<Student>& students)
 int main()
 {
     vector<Student> students;
+
+    // Load saved data when program starts
+    loadStudents(students);
 
     int choice;
 
