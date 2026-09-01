@@ -77,6 +77,57 @@ void searchStudent(vector<Student>& students)
     cout << "\nStudent not found.\n";
 }
 
+void updateStudent(vector<Student>& students)
+{
+    int id;
+
+    cout << "\nEnter Student ID to update: ";
+    cin >> id;
+
+    for (int i = 0; i < students.size(); i++)
+    {
+        if (students[i].id == id)
+        {
+            cout << "Enter New Name: ";
+            cin >> students[i].name;
+
+            cout << "Enter New Course: ";
+            cin >> students[i].course;
+
+            cout << "Enter New Marks: ";
+            cin >> students[i].marks;
+
+            cout << "\nStudent updated successfully!\n";
+
+            return;
+        }
+    }
+
+    cout << "\nStudent not found.\n";
+}
+
+void deleteStudent(vector<Student>& students)
+{
+    int id;
+
+    cout << "\nEnter Student ID to delete: ";
+    cin >> id;
+
+    for (int i = 0; i < students.size(); i++)
+    {
+        if (students[i].id == id)
+        {
+            students.erase(students.begin() + i);
+
+            cout << "\nStudent deleted successfully!\n";
+
+            return;
+        }
+    }
+
+    cout << "\nStudent not found.\n";
+}
+
 int main()
 {
     vector<Student> students;
@@ -89,7 +140,9 @@ int main()
         cout << "1. Add Student\n";
         cout << "2. Display Students\n";
         cout << "3. Search Student\n";
-        cout << "4. Exit\n";
+        cout << "4. Update Student\n";
+        cout << "5. Delete Student\n";
+        cout << "6. Exit\n";
 
         cout << "\nEnter your choice: ";
         cin >> choice;
@@ -108,6 +161,14 @@ int main()
         }
         else if (choice == 4)
         {
+            updateStudent(students);
+        }
+        else if (choice == 5)
+        {
+            deleteStudent(students);
+        }
+        else if (choice == 6)
+        {
             cout << "\nProgram ended.\n";
         }
         else
@@ -115,7 +176,7 @@ int main()
             cout << "\nInvalid choice!\n";
         }
 
-    } while (choice != 4);
+    } while (choice != 6);
 
     return 0;
 }
